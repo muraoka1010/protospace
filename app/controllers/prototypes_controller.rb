@@ -20,10 +20,13 @@ class PrototypesController < ApplicationController
   end
 
   def show
-    @prototype = Prototype.find(params[:id])
-
+    @prototype = Prototype.find_by(id: params[:id])
+  if @prototype.nil?
+    redirect_to root_path, alert: "Prototype not found"
+  else
     @comment = Comment.new
     @comments = @prototype.comments.includes(:user)
+  end
   end
 
   def edit
